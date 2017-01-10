@@ -18,23 +18,27 @@ exports.handler = function (event, context) {
   var eventName = event.Records[0].Sns.MessageAttributes['X-Github-Event'].Value;
   var text = '';
 
+  var repoName = msg.repository.full_name;
+  var authorName = '';
+
   switch (eventName) {
     case 'issue_comment':
     case 'pull_request_review_comment':
       var comment = msg.comment;
-      text += comment.user.login + ": \n";
+      authorName = comment.user.login;
       text += convertName(comment.body) + "\n";
       text += comment.html_url;
       break;
     case 'pull_request_review':
       var review = msg.review;
-      text += review.user.login + ": \n";
+      authorName = review.user.login;
       text += 'Review State: ' + review.state + "\n";
       text += convertName(review.body) + "\n";
       text += review.html_url;
       break;
     case 'issues':
       var issue = msg.issue;
+      authorName = issue.user.login;
       if (msg.action == 'opended' || msg.action == 'closed') {
           text += 'Issue ' + msg.action + "\n";
           text += link(issue.html_url, issue.title);
@@ -68,7 +72,24 @@ exports.handler = function (event, context) {
     url: config.slack_web_hook_url,
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    json: {text: text, link_names: 1}
+    json: {
+      attachments: [
+        {
+          fallback: "Required plain-text summary of the attachment.",
+          color: "#36a64f",
+          pretext: repoName,
+          author_name: authorName,
+          title: "Slack API Documentation",
+          title_link: "https://api.slack.com/",
+          text: text,
+          image_url: "http://my-website.com/path/to/image.jpg",
+          thumb_url: "http://example.com/path/to/thumb.png",
+          footer: "Slack API",
+          footer_icon: "https://platform.slack-edge.com/img/default_application_icon.png",
+          ts: 123456789
+        }
+      ]
+    }
   }, function () {
     context.done();
   });
