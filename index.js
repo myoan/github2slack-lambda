@@ -18,20 +18,33 @@ exports.handler = function (event, context) {
   var eventName = event.Records[0].Sns.MessageAttributes['X-Github-Event'].Value;
   var text = '';
 
-  var repoName = msg.repository.full_name;
+  var repoName   = msg.repository.full_name;
+  var repoUrl    = msg.repository.html_url;
   var authorName = '';
+  var authorUrl  = '';
+  var prTitle    = '';
+  var prUrl      = '';
+  var prNum      = 0;
 
   switch (eventName) {
     case 'issue_comment':
     case 'pull_request_review_comment':
       var comment = msg.comment;
-      authorName = comment.user.login;
+      authorName  = comment.user.login;
+      authorUrl   = comment.user.html_url;
+      prTitle     = msg.issue.title;
+      prUrl       = msg.issue.html_url;
+      prNum       = msg.issue.number;
       text += convertName(comment.body) + "\n";
       text += comment.html_url;
       break;
     case 'pull_request_review':
       var review = msg.review;
       authorName = review.user.login;
+      authorUrl  = review.user.html_url;
+      prTitle    = msg.pull_request.title;
+      prUrl      = msg.pull_request.html_url;
+      prNum      = msg.pull_request.number;
       text += 'Review State: ' + review.state + "\n";
       text += convertName(review.body) + "\n";
       text += review.html_url;
@@ -39,12 +52,18 @@ exports.handler = function (event, context) {
     case 'issues':
       var issue = msg.issue;
       authorName = issue.user.login;
-      if (msg.action == 'opended' || msg.action == 'closed') {
+      authorUrl  = issue.user.html_url;
+      prTitle    = msg.issue.title;
+      prUrl      = msg.issue.html_url;
+      prNum      = msg.issue.number;
+      if (msg.action == 'opended' || msg.action == 'closed' || msg.action == 'reopened') {
           text += 'Issue ' + msg.action + "\n";
           text += link(issue.html_url, issue.title);
       }
       break;
     case 'push':
+      authorName = msg.sender.login;
+      authorUrl  = msg.sender.html_url;
       text += 'Pushed' + "\n";
       text += msg.compare + "\n";
       for (var i = 0; i < msg.commits.length; i++) {
@@ -54,11 +73,13 @@ exports.handler = function (event, context) {
       break;
     case 'pull_request':
       var pull_request = msg.pull_request;
-      if (msg.action == 'opended' || msg.action == 'closed') {
+      authorName = pull_request.user.login;
+      authorUrl  = pull_request.user.html_url;
+      prTitle    = pull_request.title;
+      prUrl      = pull_request.html_url;
+      prNum      = pull_request.number;
+      if (msg.action == 'opended' || msg.action == 'closed' || msg.action == 'reopened') {
           text += 'Pull Request ' + msg.action + "\n";
-          text += pull_request.title + "\n";
-          text += pull_request.body + "\n";
-          text += pull_request.html_url;
       }
       break;
   }
@@ -77,16 +98,14 @@ exports.handler = function (event, context) {
         {
           fallback: "Required plain-text summary of the attachment.",
           color: "#36a64f",
-          pretext: repoName,
+          pretext: "[<" + repoUrl + "|" + repoName +">]",
           author_name: authorName,
-          title: "Slack API Documentation",
-          title_link: "https://api.slack.com/",
+          author_link: authorUrl,
+          title: "#" + prNum + ": " + prTitle,
+          title_link: prUrl,
           text: text,
           image_url: "http://my-website.com/path/to/image.jpg",
-          thumb_url: "http://example.com/path/to/thumb.png",
-          footer: "Slack API",
-          footer_icon: "https://platform.slack-edge.com/img/default_application_icon.png",
-          ts: 123456789
+          thumb_url: "http://example.com/path/to/thumb.png"
         }
       ]
     }
