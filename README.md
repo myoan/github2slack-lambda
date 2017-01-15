@@ -17,7 +17,13 @@ After that, you can deploy by following command:
 
 ```
 npm install
-./node_modules/.bin/gulp deploy
+npm run deploy
+```
+
+## How to test
+
+```
+npm run test
 ```
 
 # LICENSE

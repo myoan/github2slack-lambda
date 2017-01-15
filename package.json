@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test",
+    "deploy": "gulp deploy"
   },
   "author": "Shogo Kawahara <kawahara@bucyou.net>",
   "license": "MIT",
