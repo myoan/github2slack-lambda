@@ -85,8 +85,8 @@ PRReview.prototype.toSlack = function() {
 function PRPush(msg) {
   this.repoName   = msg.repository.full_name;
   this.repoUrl    = msg.repository.html_url;
-  this.authorName = msg.issue.user.login;
-  this.authorUrl  = msg.issue.user.html_url;
+  this.authorName = msg.sender.login;
+  this.authorUrl  = msg.sender.html_url;
   this.color      = "#36a64f";
   this.pretext    = pretextHeader(this.repoUrl, this.repoName)
                       + link(this.authorUrl, this.authorName);
