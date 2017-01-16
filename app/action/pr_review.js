@@ -39,7 +39,7 @@ PRReview.prototype.stateColor = function(state) {
       return "#767676";
     case "approved":
       return "#36a64f";
-    case "request_changed":
+    case "changes_requested":
       return "#c82c02";
   }
 };
