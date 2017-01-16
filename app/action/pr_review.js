@@ -9,18 +9,20 @@ function PRReview(msg) {
   this.titleUrl    = msg.pull_request.html_url;
   this.prNum       = msg.pull_request.number;
   this.color       = this.stateColor(msg.review.state);
-  this.pretext     = util.pretextHeader(this.repoUrl, this.repoName)
-                       + util.link(this.authorUrl, this.authorName)
+  this.pretext     = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                        + " reviews on: "
                        + util.prTitleWithNumber(this.titleUrl, this.prNum, this.title);
   this.text        = "[" + msg.review.state + "] " + msg.review.body
+  this.plainText   = util.plainPretextHeader(this.repoName, this.authorName)
+                       + " reviews on: "
+                       + util.plainPrTitleWithNumber(this.prNum, this.title);
 }
 
 PRReview.prototype.toSlack = function() {
   return {
     attachments: [
       {
-        fallback: "Required plain-text summary of the attachment.",
+        fallback: this.plainText,
         color: this.color,
         pretext: this.pretext,
         text: this.text,

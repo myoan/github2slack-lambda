@@ -9,18 +9,20 @@ function PRComment(msg) {
   this.titleUrl    = msg.pull_request.html_url;
   this.prNum       = msg.pull_request.number;
   this.color       = "#36a64f";
-  this.pretext     = util.pretextHeader(this.repoUrl, this.repoName)
-                       + util.link(this.authorUrl, this.authorName)
+  this.pretext     = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                        + " comments on: "
                        + util.prTitleWithNumber(this.titleUrl, this.prNum, this.title);
   this.text     = msg.comment.body
+  this.plainText   = util.plainPretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
+                       + " comments on: "
+                       + util.plainPrTitleWithNumber(this.prNum, this.title);
 }
 
 PRComment.prototype.toSlack = function() {
   return {
     attachments: [
       {
-        fallback:   "Required plain-text summary of the attachment.",
+        fallback:   this.plainText,
         color:      this.color,
         pretext:    this.pretext,
         text:       this.text,

@@ -10,19 +10,21 @@ function Issue(msg) {
   this.prNum      = msg.issue.number;
   this.text       = msg.issue.body;
   this.color      = this.actionColor(msg.action);
-  this.pretext    = util.pretextHeader(this.repoUrl, this.repoName)
-                      + util.link(this.authorUrl, this.authorName)
-                      + " "
+  this.pretext    = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                       + msg.action
                       + " issue: "
                       + util.prTitleWithNumber(this.titleUrl, this.prNum, this.title);
+  this.plainText  = util.plainPretextHeader(this.repoName, this.authorName)
+                      + msg.action
+                      + " issue: "
+                      + util.plainPrTitleWithNumber(this.prNum, this.title);
 }
 
 Issue.prototype.toSlack = function() {
   return {
     attachments: [
       {
-        fallback: "Required plain-text summary of the attachment.",
+        fallback: this.plainText,
         color: this.color,
         pretext: this.pretext,
         text: this.text,
