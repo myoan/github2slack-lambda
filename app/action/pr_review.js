@@ -12,7 +12,7 @@ function PRReview(msg) {
   this.pretext     = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                        + " reviews on: "
                        + util.prTitleWithNumber(this.titleUrl, this.prNum, this.title);
-  this.text        = "[" + msg.review.state + "] " + msg.review.body
+  this.text        = "*[" + msg.review.state + "]* " + msg.review.body
   this.plainText   = util.plainPretextHeader(this.repoName, this.authorName)
                        + " reviews on: "
                        + util.plainPrTitleWithNumber(this.prNum, this.title);
