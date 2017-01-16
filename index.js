@@ -18,16 +18,6 @@ exports.handler = function (event, context) {
   // console.log('Received GitHub event: ' + event.Records[0].Sns.Message);
   var msg = JSON.parse(event.Records[0].Sns.Message);
   var eventName = event.Records[0].Sns.MessageAttributes['X-Github-Event'].Value;
-  var text = '';
-
-  var repoName   = msg.repository.full_name;
-  var repoUrl    = msg.repository.html_url;
-  var authorName = '';
-  var authorUrl  = '';
-  var prTitle    = '';
-  var prUrl      = '';
-  var prNum      = 0;
-
   var action;
 
   console.log(eventName)
