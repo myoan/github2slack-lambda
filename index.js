@@ -8,6 +8,7 @@ var convertName = function (body) {
   });
 };
 
+PRComment = require("./app/action/pr_comment");
 IssueComment = require("./app/action/issue_comment");
 PRPush       = require("./app/action/pr_push");
 Issue        = require("./app/action/issue");
@@ -23,8 +24,10 @@ exports.handler = function (event, context) {
   console.log(eventName)
   switch (eventName) {
     case 'issue_comment':
-    case 'pull_request_review_comment':
       action = new IssueComment(msg)
+      break;
+    case 'pull_request_review_comment':
+      action = new PRComment(msg)
       break;
     case 'pull_request_review':
       action = new PRReview(msg)

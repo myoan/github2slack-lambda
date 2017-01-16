@@ -10,6 +10,7 @@ describe( 'github2slack', function() {
     'test/input/issue_comment.json',
     'test/input/push.json',
     'test/input/issue.json',
+    'test/input/pr_comment.json',
     'test/input/pull_request.json'
   ].forEach( function(filePath) {
     it( 'successful test',
