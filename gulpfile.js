@@ -10,8 +10,10 @@ gulp.task('clean', function() {
 });
 
 gulp.task('js', function() {
-  return gulp.src(['index.js', 'config.json'])
+  gulp.src(['index.js', 'config.json'])
     .pipe(gulp.dest('dist/'));
+  return gulp.src(['./app/**/*'])
+    .pipe(gulp.dest('dist/app'));
 });
 
 gulp.task('node-mods', function() {
