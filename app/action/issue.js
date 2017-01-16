@@ -8,7 +8,7 @@ function Issue(msg) {
   this.title      = msg.issue.title;
   this.titleUrl   = msg.issue.html_url;
   this.prNum      = msg.issue.number;
-  this.text       = msg.issue.body;
+  this.text       = this.actionText(msg.action, msg.pull_request.body);
   this.color      = this.actionColor(msg.action);
   this.pretext    = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                       + msg.action
@@ -45,6 +45,15 @@ Issue.prototype.actionColor = function(action) {
       return "#c82c02";
     default:
       return "#767676";
+  }
+};
+
+Issue.prototype.actionText = function(action, body) {
+  if(action.match(/^opened$/)) {
+    return body;
+  }
+  else {
+    return null;
   }
 };
 

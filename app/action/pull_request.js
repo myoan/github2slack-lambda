@@ -8,7 +8,7 @@ function PullRequest(msg) {
   this.title      = msg.pull_request.title;
   this.titleUrl   = msg.pull_request.html_url;
   this.prNum      = msg.pull_request.number;
-  this.text       = msg.pull_request.body;
+  this.text       = this.actionText(msg.action, msg.pull_request.body);
   this.color      = this.actionColor(msg.action);
   this.pretext    = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                       + msg.action
@@ -45,6 +45,15 @@ PullRequest.prototype.actionColor = function(action) {
       return "#c82c02";
     default:
       return "#767676";
+  }
+};
+
+PullRequest.prototype.actionText = function(action, body) {
+  if(action.match(/^opened$/)) {
+    return body;
+  }
+  else {
+    return null;
   }
 };
 
