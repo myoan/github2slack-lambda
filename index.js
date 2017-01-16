@@ -16,7 +16,7 @@ PullRequest  = require("./app/action/pull_request");
 PRReview     = require("./app/action/pr_review");
 
 exports.handler = function (event, context) {
-  // console.log('Received GitHub event: ' + event.Records[0].Sns.Message);
+  console.log('Received GitHub event: ' + event.Records[0].Sns.Message);
   var msg = JSON.parse(event.Records[0].Sns.Message);
   var eventName = event.Records[0].Sns.MessageAttributes['X-Github-Event'].Value;
   var action;

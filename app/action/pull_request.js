@@ -9,10 +9,12 @@ function PullRequest(msg) {
   this.titleUrl   = msg.pull_request.html_url;
   this.prNum      = msg.pull_request.number;
   this.text       = msg.pull_request.body;
-  this.color      = "#36a64f";
+  this.color      = this.actionColor(msg.action);
   this.pretext    = util.pretextHeader(this.repoUrl, this.repoName)
                       + util.link(this.authorUrl, this.authorName)
-                      + " creates PR: "
+                      + " "
+                      + msg.action
+                      + " PR: "
                       + util.prTitleWithNumber(this.titleUrl, this.prNum, this.title);
 }
 
@@ -31,5 +33,16 @@ PullRequest.prototype.toSlack = function() {
   }
 };
 
+PullRequest.prototype.actionColor = function(action) {
+  switch (action) {
+    case "opened":
+    case "reopened":
+      return "#36a64f";
+    case "closeed":
+      return "#c82c02";
+    default:
+      return "#767676";
+  }
+};
 
 module.exports = PullRequest

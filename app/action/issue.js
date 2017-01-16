@@ -9,10 +9,12 @@ function Issue(msg) {
   this.titleUrl   = msg.issue.html_url;
   this.prNum      = msg.issue.number;
   this.text       = msg.issue.body;
-  this.color      = "#36a64f";
+  this.color      = this.actionColor(msg.action);
   this.pretext    = util.pretextHeader(this.repoUrl, this.repoName)
                       + util.link(this.authorUrl, this.authorName)
-                      + " creates issue: "
+                      + " "
+                      + msg.action
+                      + " issue: "
                       + util.prTitleWithNumber(this.titleUrl, this.prNum, this.title);
 }
 
@@ -28,6 +30,18 @@ Issue.prototype.toSlack = function() {
         thumb_url: util.thumb_url
       }
     ]
+  }
+};
+
+Issue.prototype.actionColor = function(action) {
+  switch (action) {
+    case "opened":
+    case "reopened":
+      return "#36a64f";
+    case "closeed":
+      return "#c82c02";
+    default:
+      return "#767676";
   }
 };
 
