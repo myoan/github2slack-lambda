@@ -27,7 +27,8 @@ IssueComment.prototype.toSlack = function() {
         pretext:    this.pretext,
         text:       this.text,
         image_url: util.image_url,
-        thumb_url: util.thumb_url
+        thumb_url: util.thumb_url,
+        mrkdwn_in: ['text', 'pretext']
       }
     ]
   }

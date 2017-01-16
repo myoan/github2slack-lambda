@@ -10,7 +10,7 @@ function PRPush(msg) {
   this.text       = "";
   for (var i = 0; i < msg.commits.length; i++) {
     var commit = msg.commits[i];
-    this.text += util.link(commit.url, commit.id.substr(0, 8)) + ' ' + commit.message + ' - ' + commit.author.name + "\n";
+    this.text += '`' + util.link(commit.url, commit.id.substr(0, 8)) + '` ' + commit.message + ' - ' + commit.author.name + "\n";
   }
   this.plainText  = util.plainPretextHeader(this.repoName, this.authorName) + "pushed";
 }
@@ -24,7 +24,8 @@ PRPush.prototype.toSlack = function() {
         pretext: this.pretext,
         text: this.text,
         image_url: util.image_url,
-        thumb_url: util.thumb_url
+        thumb_url: util.thumb_url,
+        mrkdwn_in: ['text', 'pretext']
       }
     ]
   }
