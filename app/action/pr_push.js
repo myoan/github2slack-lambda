@@ -23,8 +23,8 @@ PRPush.prototype.toSlack = function() {
         color: this.color,
         pretext: this.pretext,
         text: this.text,
-        image_url: "http://my-website.com/path/to/image.jpg",
-        thumb_url: "http://example.com/path/to/thumb.png"
+        image_url: util.image_url,
+        thumb_url: util.thumb_url
       }
     ]
   }

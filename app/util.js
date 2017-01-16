@@ -7,6 +7,8 @@ var util = {
   },
   prTitleWithNumber: function(url, num, title){
     return this.link(url, "#" + num + ": " + title)
-  }
+  },
+  image_url: "http://my-website.com/path/to/image.jpg",
+  thumb_url: "http://example.com/path/to/thumb.png"
 };
 module.exports = util;
