@@ -44,7 +44,7 @@ exports.handler = function (event, context) {
   }
 
   request({
-    url: config.slack_web_hook_url,
+    url: config.slack_web_hook_url[action.repoName],
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     json: action.toSlack(),

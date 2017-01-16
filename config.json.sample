@@ -1,5 +1,7 @@
 {
-  "slack_web_hook_url": "SLACK_WEB_HOOK",
+  "slack_web_hook_url": {
+    "REPOSITORY_FULL_NAME": "SLACK_WEB_HOOK"
+  },
   "account_map": {
     "@github_name": "@slack_name"
   }
