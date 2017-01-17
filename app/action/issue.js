@@ -8,7 +8,7 @@ function Issue(msg) {
   this.title      = msg.issue.title;
   this.titleUrl   = msg.issue.html_url;
   this.prNum      = msg.issue.number;
-  this.text       = this.actionText(msg.action, msg.pull_request.body);
+  this.text       = this.actionText(msg.action, msg.issue.body);
   this.color      = this.actionColor(msg.action);
   this.pretext    = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                       + msg.action
