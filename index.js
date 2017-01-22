@@ -2,7 +2,7 @@
 var request = require('request'),
     config  = require('./config.json');
 
-PRComment = require("./app/action/pr_comment");
+PRComment    = require("./app/action/pr_comment");
 IssueComment = require("./app/action/issue_comment");
 PRPush       = require("./app/action/pr_push");
 Issue        = require("./app/action/issue");
