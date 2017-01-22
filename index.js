@@ -2,12 +2,6 @@
 var request = require('request'),
     config  = require('./config.json');
 
-var convertName = function (body) {
-  return body.replace(/@[a-zA-Z0-9_\-]+/g, function (m) {
-    return config.account_map[m] || m;
-  });
-};
-
 PRComment = require("./app/action/pr_comment");
 IssueComment = require("./app/action/issue_comment");
 PRPush       = require("./app/action/pr_push");
