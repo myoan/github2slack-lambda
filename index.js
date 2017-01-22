@@ -16,27 +16,32 @@ exports.handler = function (event, context) {
   var action;
 
   console.log(eventName)
-  switch (eventName) {
-    case 'issue_comment':
-      action = new IssueComment(msg)
-      break;
-    case 'pull_request_review_comment':
-      action = new PRComment(msg)
-      break;
-    case 'pull_request_review':
-      action = new PRReview(msg)
-      break;
-    case 'issues':
-      action = new Issue(msg)
-      break;
-    case 'push':
-      action = new PRPush(msg)
-      break;
-    case 'pull_request':
-      action = new PullRequest(msg)
-      break;
-    default:
-      context.done();
+  try {
+    switch (eventName) {
+      case 'issue_comment':
+        action = new IssueComment(msg)
+        break;
+      case 'pull_request_review_comment':
+        action = new PRComment(msg)
+        break;
+      case 'pull_request_review':
+        action = new PRReview(msg)
+        break;
+      case 'issues':
+        action = new Issue(msg)
+        break;
+      case 'push':
+        action = new PRPush(msg)
+        break;
+      case 'pull_request':
+        action = new PullRequest(msg)
+        break;
+      default:
+        context.done();
+    }
+  } catch (err) {
+    context.done();
+    return;
   }
 
   request({

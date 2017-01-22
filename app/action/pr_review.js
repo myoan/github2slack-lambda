@@ -1,6 +1,7 @@
 var util = require("../util");
 
 function PRReview(msg) {
+  this.validate(msg.review.state);
   this.repoName    = msg.repository.full_name;
   this.repoUrl     = msg.repository.html_url;
   this.authorName  = msg.review.user.login;
@@ -12,11 +13,18 @@ function PRReview(msg) {
   this.pretext     = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName)
                        + " reviews on: "
                        + util.prTitleWithNumber(this.titleUrl, this.prNum, this.title);
-  this.text        = "*[" + msg.review.state + "]* " + msg.review.body
+  var reviewBody   = msg.review.body || ""
+  this.text        = "*[" + msg.review.state + "]* " + reviewBody
   this.plainText   = util.plainPretextHeader(this.repoName, this.authorName)
                        + " reviews on: "
                        + util.plainPrTitleWithNumber(this.prNum, this.title);
 }
+
+PRReview.prototype.validate = function(state) {
+  if (state == "commented") {
+      throw new Error ("Ignore comment state");
+  }
+};
 
 PRReview.prototype.toSlack = function() {
   return {
