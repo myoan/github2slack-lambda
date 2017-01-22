@@ -6,7 +6,7 @@ function PRPush(msg) {
   this.authorName = msg.sender.login;
   this.authorUrl  = msg.sender.html_url;
   this.color      = "#36a64f";
-  this.pretext    = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName);
+  this.pretext    = util.pretextHeader(this.repoUrl, this.repoName, this.authorUrl, this.authorName) + ' pushed: ' + util.compare(msg.compare);
   this.text       = "";
   for (var i = 0; i < msg.commits.length; i++) {
     var commit = msg.commits[i];

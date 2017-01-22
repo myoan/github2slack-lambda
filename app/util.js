@@ -1,4 +1,7 @@
 var util = {
+  compare: function(url){
+    return '<' + url + '|Compare changes>';
+  },
   link: function (url, text){
     return '<' + url + '|' + text + '>';
   },

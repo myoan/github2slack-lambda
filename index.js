@@ -35,6 +35,8 @@ exports.handler = function (event, context) {
     case 'pull_request':
       action = new PullRequest(msg)
       break;
+    default:
+      context.done();
   }
 
   request({
